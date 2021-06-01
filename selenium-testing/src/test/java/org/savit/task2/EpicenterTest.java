@@ -8,6 +8,10 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,8 +22,7 @@ public class EpicenterTest {
     private static final String EPICENTER_CONTACTS_URL = "https://epicentrk.ua/ua/info/contacts/";
 
     private static final String SEARCH_FIELD_NAME="q";
-    private static final String SEARCH_RESULT_ID="rso";
-    private static final String SEARCH_RESULT_LIST_PATH="/*";
+    private static final String SEARCH_RESULT_LIST_PATH="//*[@id='rso']//h3";
 
     private static final String EPICENTER_SEARCH_QUERY = "Епіцентр";
     private static final String CONTACTS_LINK_SELECTOR = "a[title='Контакти']";
@@ -44,8 +47,7 @@ public class EpicenterTest {
         driver.get(GOOGLE_URL);
 
         driver.findElement(By.name(SEARCH_FIELD_NAME)).sendKeys(EPICENTER_SEARCH_QUERY + Keys.ENTER);
-
-        driver.findElement(By.id(SEARCH_RESULT_ID)).findElements(By.xpath(SEARCH_RESULT_LIST_PATH)).get(0).click();
+        driver.findElements(By.xpath(SEARCH_RESULT_LIST_PATH)).get(0).click();
         assertThat(driver.getCurrentUrl()).isEqualTo(EPICENTER_URL);
         WebElement contactsLink = driver.findElement(By.cssSelector(CONTACTS_LINK_SELECTOR));
         assertThat(contactsLink.getAttribute(HREF_ATTR)).isEqualTo(EPICENTER_CONTACTS_URL);
